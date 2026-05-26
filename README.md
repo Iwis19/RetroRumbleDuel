@@ -1,4 +1,4 @@
-# Retro Rumble Duel
+# Retro Rumble Duel 🥊
 Python-based local multiplayer fighting game built with Pygame. Players select a map, choose from four pixel-art fighters, and battle in a retro-style 1v1 duel :)
 
 ---
