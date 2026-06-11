@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Retro Rumble Duel",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Retro Rumble Duel.py",
+            "cwd": "${workspaceFolder}",
+            "python": "${env:LOCALAPPDATA}/Programs/Python/Python312/python.exe",
+            "console": "integratedTerminal"
+        }
+    ]
+}
