@@ -1,5 +1,6 @@
 import os
 import pygame
+from config import *
 
 class Character:
 
@@ -32,11 +33,12 @@ class Character:
 
     def load_animation(self):
 
+
         for animation in range(len(self.ACTIONS)):
             right, left = [], []
-            frames = len(os.listdir(f"character{self.character_number}/png/0{animation + 1}_{self.ACTIONS[animation]}"))
-            for items in range(frames):
-                right_frame = pygame.transform.scale(pygame.image.load(f"character{self.character_number}/png/0{animation + 1}_{self.ACTIONS[animation]}/{self.ACTIONS[animation]}_{items + 1}.png"), self.CHARACTER_DIMENSION).convert_alpha()
+            frames = len(os.listdir(asset_path(f"character{self.character_number}/png/0{animation + 1}_{self.ACTIONS[animation]}")))
+            for frame in range(frames):
+                right_frame = pygame.transform.scale(pygame.image.load(asset_path(f"character{self.character_number}/png/0{animation + 1}_{self.ACTIONS[animation]}/{self.ACTIONS[animation]}_{frame + 1}.png")), self.CHARACTER_DIMENSION).convert_alpha()
                 left_frame = pygame.transform.flip(right_frame, True, False).convert_alpha()
                 right.append(right_frame)
                 left.append(left_frame)
@@ -45,8 +47,8 @@ class Character:
 
     def load_assets(self):
 
-        self.profile_picture = pygame.transform.scale(pygame.image.load(f"character{self.character_number}/{self.CHARACTER_NAMES[self.character_number]}.png"), self.PFP_DIMENSION).convert_alpha()
-        self.selection_picture = pygame.transform.scale(pygame.image.load(f"character{self.character_number}/{self.CHARACTER_NAMES[self.character_number]}.png"), self.PORTRAIT_DIMENSION).convert_alpha()
+        self.profile_picture = pygame.transform.scale(pygame.image.load(asset_path(f"character{self.character_number}/{self.CHARACTER_NAMES[self.character_number]}.png")), self.PFP_DIMENSION).convert_alpha()
+        self.selection_picture = pygame.transform.scale(pygame.image.load(asset_path(f"character{self.character_number}/{self.CHARACTER_NAMES[self.character_number]}.png")), self.PORTRAIT_DIMENSION).convert_alpha()
         self.load_animation()
 
         
