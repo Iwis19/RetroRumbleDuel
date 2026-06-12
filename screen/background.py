@@ -1,6 +1,7 @@
 import pygame
 import os
 from config import *
+import sys
 
 class Background:
 
@@ -39,3 +40,13 @@ class Background:
         gameWindow.blit(self.background[self.background_frame], (ORIGIN))
         gameWindow.blit(continue_text, continue_text_location)
         gameWindow.blit(title_text, (0, -30))
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:         #if space is pressed, go to next menu
+                    return "FORWARD"
+
+                if event.key == pygame.K_ESCAPE:      #if escape is pressed, escape game
+                    pygame.quit()
+                    sys.exit()
