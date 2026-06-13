@@ -24,6 +24,10 @@ MANAGED !!!VARIABLES!!!
 GENERAL CONSTANTS
 """
 
+FPS = 30
+UPDATE_INTERVAL = 150
+TICK_SPEED = 1000
+
 WIDTH, HEIGHT = 1200, 600
 
 LEFT = 0
@@ -31,11 +35,9 @@ RIGHT = WIDTH
 TOP = 0
 BOTTOM = HEIGHT
 
-MAP_DISPLAY_SIZE = (200, 100)
+
 
 ORIGIN = (0,0)
-
-MAPS = [0, 1, 2, 3, 4, 5]
 
 FORWARD_BUTTON_X = 1115
 BACK_BUTTON_X = 85
@@ -59,15 +61,47 @@ IMAGE_HEIGHT = 400
 CHARACTER_DIMENSION = (IMAGE_WIDTH, IMAGE_HEIGHT)
 
 
+"""
+MAPSSS
+"""
+
+MAP_NUMBER = [0, 1, 2, 3, 4, 5]
+MAP_DISPLAY_SIZE = (200, 100)
+
+
+
 
 """
-CHARACTERS
+CHARACTERS PROPERTY
 """
 
 CHARACTER_NAMES = ['None Selected', 'Fire Knight', 'Wind Hashashin', 'Water Priestess', 'Metal Bladekeeper']
 CHARACTER_FILE_NAMES = [None, 'fire_knight', 'wind_hashashin', 'water_priestess', 'metal_bladekeeper']
 
+HITBOX_WIDTH = [0, 100, 90, 80, 100]
+HITBOX_HEIGHT = [0, 150, 125, 125, 138]
 
+
+# atk hitboxes
+ATK1_Y_SHIFT = [0, -100, 25, 40, 30]
+ATK1_WIDTH = [0, 160, 75, 145, 120]
+ATK1_HEIGHT = [0, 250, 45, 15, 70]
+
+ATK2_Y_SHIFT = [0, -10, -25, 40, -30]
+ATK2_WIDTH = [0, 410, 120, 240, 580]
+ATK2_HEIGHT = [0, 170, 130, 15, 180]
+
+# frames of atk hitbox
+ATK1_HIT_FRAME = [0, 5, 1, 3, 2]
+ATK2_HIT_FRAME = [0, 13, 9, 15, 4]
+
+# atk cooldown
+ATK1_COOLDOWN = [0, 750, 1000, 850, 1000]
+ATK2_COOLDOWN = [0, 5000, 4400, 4000, 7400]
+
+# atk damage
+ATK1_DAMAGE = [0, 24, 16, 14, 16]
+ATK2_DAMAGE = [0, 34, 32, 29, 37]
 
 
 """
@@ -101,8 +135,8 @@ mapTextFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 21)
 selectMapFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 25)
 selectedMapFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 23)
 countdownFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 39)
-guiFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
-guiInformationFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 15)
+gui_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
+gui_information_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 15)
 playerNameFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
 controlFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
 controlKeysFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 17)
@@ -138,7 +172,7 @@ countdownSound.set_volume(0.7)
 TIMERS
 """
 
-# clock = pygame.time.Clock()
+clock = pygame.time.Clock()
 # menuBackgroundReferenceTime = pygame.time.get_ticks()
 # selectedCharacterReferenceTime = pygame.time.get_ticks()
 # animationTimeP1 = pygame.time.get_ticks()
@@ -148,6 +182,6 @@ TIMERS
 # animationTimeP1 = pygame.time.get_ticks()
 # animationTimeP2 = pygame.time.get_ticks()
 # gameBackgroundTime = pygame.time.get_ticks()
-# countdownStartTime = pygame.time.get_ticks()
+#countdown_start_time = pygame.time.get_ticks()
 
 

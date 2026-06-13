@@ -4,6 +4,8 @@ from config import *
 
 class Map:
     
+    MAPS = [None]
+    
     def __init__(
         self,
         map_number
@@ -31,3 +33,12 @@ class Map:
         self.map_display = pygame.transform.scale(pygame.image.load(asset_path(f"MAP{self.map_number}", "tile000.png")), MAP_DISPLAY_SIZE).convert_alpha()
         
         self.load_map()
+
+    @classmethod
+    def load_all(cls):
+        
+        if len(cls.MAPS) == 1:  # only if the MAPS list is not already filled
+            for i in range(1, len(MAP_NUMBER)):
+                cls.MAPS.append(cls(i))
+
+        return cls.MAPS

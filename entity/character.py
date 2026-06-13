@@ -3,6 +3,8 @@ import pygame
 from config import *
 
 class Character:
+
+    CHARACTERS = [None]
     
     # possible actions
     ACTIONS = [None, "idle", "run", "jump_up", "jump_down", "atk1", "atk2", "take_hit", "death"]
@@ -38,4 +40,12 @@ class Character:
         self.selection_picture = pygame.transform.scale(pygame.image.load(asset_path(f"character{self.character_number}/{CHARACTER_FILE_NAMES[self.character_number]}.png")), PORTRAIT_DIMENSION).convert_alpha()
         self.load_animation()
 
+    @classmethod
+    def load_all(cls):
+
+        if len(cls.CHARACTERS) == 1:
+            for i in range(1, len(CHARACTER_NAMES)):
+                cls.CHARACTERS.append(Character(i))
+
+        return cls.CHARACTERS
         
