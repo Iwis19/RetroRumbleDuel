@@ -14,6 +14,7 @@ from screen.menu import Menu
 from screen.mapselect import MapSelect
 from screen.characterselect import CharacterSelect
 from screen.countdown import Countdown
+from screen.fight import Fight
 from screen.gameover import GameOver
 from helper.game_state import GameState
 
@@ -727,6 +728,7 @@ map_select = MapSelect()
 character_select_1 = CharacterSelect(1)
 character_select_2 = CharacterSelect(2)
 countdown = Countdown()
+fight = None
 gameover = GameOver()
 
 while in_play: 
@@ -784,6 +786,9 @@ while in_play:
         
         if event == "FORWARD":
             GameState.p2_character = committed_character
+
+            fight = Fight(GameState.p1_character, GameState.p2_character)
+
             display_character_select_2 = False
             display_countdown = True
             

@@ -1,16 +1,13 @@
+from __future__ import annotations
 import pygame
 from config import *
 from entity.character import Character
-from __future__ import annotations
+
 
 class Player:
 
     PLAYER_W, PLAYER_H = 900, 400
-    cooldown = 80
-    health = MAX_HEALTH
-    alive = True
-    action = 0
-    dx, dy = 0, 0
+    
 
     controls = {
         "right": [0, pygame.K_d, pygame.K_l],
@@ -26,6 +23,12 @@ class Player:
         character_number,
         ground_level
     ):
+        self.cooldown = 80
+        self.health = MAX_HEALTH
+        self.alive = True
+        self.action = 0
+        self.dx, self.dy = 0, 0
+
         self.ground_level = ground_level
         self.character_number = character_number
         self.player_number = player_number

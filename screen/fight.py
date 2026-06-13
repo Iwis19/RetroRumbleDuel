@@ -10,14 +10,14 @@ class Fight(Screen):
     
     def __init__(
         self,
-        player_1: Player,
-        player_2: Player,
+        player_1_character: int,
+        player_2_character: int,
 
     ):
         self.background_frame = 0
         self.background_reference_time = pygame.time.get_ticks()
-        self.player_1 = player_1
-        self.player_2 = player_2
+        self.player_1 = Player(player_1_character)
+        self.player_2 = Player(player_2_character)
 
     def display_fight(self, gameWindow, map_number: int):
         
@@ -40,7 +40,8 @@ class Fight(Screen):
             gameWindow, 
             frames=frames, 
             frame_attr="background_frame",
-            reference_time_attr="background_reference_time"
+            reference_time_attr="background_reference_time",
+            location=ORIGIN
         )
 
     
