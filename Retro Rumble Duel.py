@@ -14,7 +14,7 @@ from screen.menu import Menu
 from screen.mapselect import MapSelect
 from screen.characterselect import CharacterSelect
 from screen.countdown import Countdown
-from entity.map import Map
+from screen.gameover import GameOver
 from helper.game_state import GameState
 
 #CONSTANTS
@@ -31,56 +31,6 @@ GRAVITY = 2
 RUNNING_SPEED = 12
 MAX_HEALTH = 100
 
-#-----------------------------------LOADING BACKGROUNDS-------------------------------------#
-#solid black background
-solidBlack = pygame.transform.scale(pygame.image.load(asset_path("COUNTDOWNBACKGROUND", "solid_black.png")), (WIDTH, 400)).convert()
-solidBlack.set_alpha(210)
-
-#menu background 
-menuBackground = []
-
-for tiles in range (len(os.listdir(asset_path("MENUBACKGROUND"))) - 1):
-    menuImage = pygame.transform.scale(pygame.image.load(asset_path("MENUBACKGROUND", "tile00"+ str(tiles) + ".png")), (WIDTH,HEIGHT)).convert_alpha()
-    menuBackground.append(menuImage)
-
-#map 1
-selectionBackground1Display = pygame.transform.scale(pygame.image.load(asset_path("MAP1", "tile000.png")), MAP_DISPLAY_SIZE).convert_alpha()
-background1 = []
-for tiles in range(len(os.listdir(asset_path("MAP1")))):
-    background1Tile = pygame.transform.scale(pygame.image.load(asset_path("MAP1", f"tile00{tiles}.png")), (WIDTH, HEIGHT)).convert_alpha()
-    background1.append(background1Tile)
-
-
-#map 2
-selectionBackground2Display = pygame.transform.scale(pygame.image.load(asset_path("MAP2", "tile000.png")), MAP_DISPLAY_SIZE).convert_alpha()
-background2 = []
-for tiles in range (0, 10):     #only 1 frame in file, 10 as a place holder as in animation
-    background2Tile = pygame.transform.scale(pygame.image.load(asset_path("MAP2", "tile000.png")), (WIDTH, HEIGHT)).convert_alpha()
-    background2.append(background2Tile)
-
-
-#map 3
-selectionBackground3Display = pygame.transform.scale(pygame.image.load(asset_path("MAP3", "tile000.png")), MAP_DISPLAY_SIZE).convert_alpha()
-background3 = []
-for tiles in range(len(os.listdir(asset_path("MAP3")))):
-    background3Tile = pygame.transform.scale(pygame.image.load(asset_path("MAP3", f"tile00{tiles}.png")), (WIDTH, HEIGHT)).convert_alpha()
-    background3.append(background3Tile)
-
-
-#map 4
-selectionBackground4Display = pygame.transform.scale(pygame.image.load(asset_path("MAP4", "tile000.png")), MAP_DISPLAY_SIZE).convert_alpha()
-background4 = []
-for tiles in range(len(os.listdir(asset_path("MAP4")))):
-    background4Tile = pygame.transform.scale(pygame.image.load(asset_path("MAP4", f"tile00{tiles}.png")), (WIDTH, HEIGHT)).convert_alpha()
-    background4.append(background4Tile)
-
-
-#map 5
-selectionBackground5Display = pygame.transform.scale(pygame.image.load(asset_path("MAP5", "tile000.png")), MAP_DISPLAY_SIZE).convert_alpha()
-background5 = []
-for tiles in range(len(os.listdir(asset_path("MAP5")))):
-    background5Tile = pygame.transform.scale(pygame.image.load(asset_path("MAP5", f"tile00{tiles}.png")), (WIDTH, HEIGHT)).convert_alpha()
-    background5.append(background5Tile)
 #-------------------------------------------------------------------------------------------#
 
 
@@ -171,71 +121,6 @@ displayCharacterList = [character1_ANIMATIONLIST_RIGHT, character2_ANIMATIONLIST
 #-------------------------------------------------------------------------------------------#
 
 
-#-------------------------------------------VARIABLES---------------------------------------#
-#user inputs
-
-#menu variables
-menuFrame = 0
-
-#map display vars
-map1DisplayX = 60
-map2DisplayX = 280
-map3DisplayX = 500
-map4DisplayX = 720
-map5DisplayX = 940
-mapDisplayY = 288
-mapDisplayWidth = 200
-
-mapSelectionArrowX = [-1000, map1DisplayX + mapDisplayWidth//2, map2DisplayX + mapDisplayWidth//2, map3DisplayX + mapDisplayWidth//2, map4DisplayX + mapDisplayWidth//2, map5DisplayX + mapDisplayWidth//2]
-mapselectionArrowY = mapDisplayY + 125
-
-
-#back & forward buttons
-backButtonX = 85
-forwardButtonX = 1115
-buttonH = 36    #for back & forward button heights
-buttonY = 500
-buttonW = 22
-
-
-#character selection
-character1SelectionPictureX = 205
-character3SelectionPictureX = 205
-character2SelectionPictureX = 385
-character4SelectionPictureX = 385
-
-character1SelectionPictureY = 160
-character3SelectionPictureY = 350
-character2SelectionPictureY = 160
-character4SelectionPictureY = 350
-
-characterSelectionP1ArrowX = [-1000, character1SelectionPictureX + PORTRAIT_WIDTH//2, character2SelectionPictureX + PORTRAIT_WIDTH//2, character3SelectionPictureX + PORTRAIT_WIDTH//2, character4SelectionPictureX + PORTRAIT_WIDTH//2]
-characterSelectionP2ArrowX = [-1000, character1SelectionPictureX + PORTRAIT_WIDTH//2, character2SelectionPictureX + PORTRAIT_WIDTH//2, character3SelectionPictureX + PORTRAIT_WIDTH//2, character4SelectionPictureX + PORTRAIT_WIDTH//2]
-characterSelectionP1ArrowY = 0
-characterSelectionP2ArrowY = 0
-
-frame = 0
-
-characterDisplayXList = [character1SelectionPictureX, character2SelectionPictureX, character3SelectionPictureX, character4SelectionPictureX]
-characterDisplayYList = [character1SelectionPictureY, character2SelectionPictureY, character3SelectionPictureY, character4SelectionPictureY]
-
-
-#countdown 
-second = 6
-
-
-#timers for frames
-clock = pygame.time.Clock()
-menuBackgroundReferenceTime = pygame.time.get_ticks()
-selectedCharacterReferenceTime = pygame.time.get_ticks()
-animationTimeP1 = pygame.time.get_ticks()
-animationTimeP2 = pygame.time.get_ticks()
-gameBackgroundTime = pygame.time.get_ticks()
-gameCloseTime = pygame.time.get_ticks()
-animationTimeP1 = pygame.time.get_ticks()
-animationTimeP2 = pygame.time.get_ticks()
-gameBackgroundTime = pygame.time.get_ticks()
-countdown_start_time = pygame.time.get_ticks()
 
 
 #fight 
@@ -306,88 +191,6 @@ actionP2 = 0
 frameP1 = 0
 frameP2 = 0
 
-character1_hitbox_width = 100
-character1_hitbox_height = 150
-
-character2_hitbox_width = 90
-character2_hitbox_height = 125
-
-character3_hitbox_width = 80
-character3_hitbox_height = 125
-
-character4_hitbox_width = 100
-character4_hitbox_height = 138
-
-
-#atk hitboxes
-character1_atk1_y_shift = -100   #atk1
-character1_atk1_width = 160
-character1_atk1_height = 250
-
-character2_atk1_y_shift = 25
-character2_atk1_width = 75
-character2_atk1_height = 45
-
-character3_atk1_y_shift = 40
-character3_atk1_width = 145
-character3_atk1_height = 15
-
-character4_atk1_y_shift = 30
-character4_atk1_width = 120
-character4_atk1_height = 70
-
-character1_atk2_y_shift = -10  #atk2
-character1_atk2_width = 410
-character1_atk2_height = 170
-
-character2_atk2_y_shift = -25
-character2_atk2_width = 120
-character2_atk2_height = 130
-
-character3_atk2_y_shift = 40
-character3_atk2_width = 240
-character3_atk2_height = 15
-
-character4_atk2_y_shift = -30
-character4_atk2_width = 580
-character4_atk2_height = 180
-
-
-#frames of atk hitbox
-character1_atk1_hitframe = 5
-character2_atk1_hitframe = 1
-character3_atk1_hitframe = 3
-character4_atk1_hitframe = 2
-
-character1_atk2_hitframe = 13
-character2_atk2_hitframe = 9
-character3_atk2_hitframe = 15
-character4_atk2_hitframe = 4
-
-
-#atk cooldown           #1 second = 1000
-character1_atk1_cooldown = 750    #atk1
-character2_atk1_cooldown = 1000
-character3_atk1_cooldown = 850
-character4_atk1_cooldown = 1000
-
-character1_atk2_cooldown = 5000   #atk 2
-character2_atk2_cooldown = 4400
-character3_atk2_cooldown = 4000
-character4_atk2_cooldown = 7400
-
-
-#atk damage
-character1_atk1_damage = 24   #atk1
-character2_atk1_damage = 16
-character3_atk1_damage = 14    
-character4_atk1_damage = 16
-
-character1_atk2_damage = 34   #atk2
-character2_atk2_damage = 32
-character3_atk2_damage = 29
-character4_atk2_damage = 37
-
 player1_attacked_atk1 = False
 player2_attacked_atk1 = False
 
@@ -409,7 +212,7 @@ animationlist_right = [0, character1_ANIMATIONLIST_RIGHT, character2_ANIMATIONLI
 
 #map attributes
 mapGroundLevel = [0, MAP1_GROUND_LEVEL, MAP2_GROUND_LEVEL, MAP3_GROUND_LEVEL, MAP4_GROUND_LEVEL, MAP5_GROUND_LEVEL]
-mapPool = [0, background1, background2, background3, background4, background5]
+mapPool = [0, [], [], [], [], []]
 
 
 #boolean for animation and conditions
@@ -445,189 +248,6 @@ closeCountdownLength = 20
 
 #-----------------------------------------FUNCTIONS ----------------------------------------#
 
-def displayCharacterSelectionMenu(player):
-
-    global characterSelectionP1ArrowX
-    global characterSelectionP2ArrowX
-    global characterSelectionP1ArrowY
-    global characterSelectionP2ArrowY
-    global p1_character
-    global p2_character
-    global takenCharacterDisplayX
-    global takenCharacterDisplayY
-
-    gameWindow.blit(menuBackground[0], ORIGIN)
-
-    pygame.draw.rect(gameWindow, BLACK, (20, 20, 700, 560), False, 6)            
-    pygame.draw.rect(gameWindow, DARKRED, (20, 20 , 700, 560), 4, 6) 
-
-    pygame.draw.rect(gameWindow, BLACK, (740, 20, 440, 560), False, 6)            
-    pygame.draw.rect(gameWindow, DARKRED, (740, 20, 440, 560), 4, 6) 
-
-    #if its first player's turn
-    if player == 1:
-        player1SelectText = selectCharacterFont.render('Choose your character: (P1)', True, WHITE)
-        gameWindow.blit(player1SelectText, (140, 75))
-        
-        #showing controls for player
-        P1ControlText = controlFont.render('Player 1 Controls:', True, WHITE)
-        P1ControlTextLocation = P1ControlText.get_rect(center = (960, 437))
-        gameWindow.blit(P1ControlText, P1ControlTextLocation)
-
-        P1KeysJump = controlKeysFont.render('Jump: W', True, WHITE)
-        gameWindow.blit(P1KeysJump, (835, 478))
-
-        P1KeysRun = controlKeysFont.render('Run: A, D', True, WHITE)
-        gameWindow.blit(P1KeysRun, (835, 500))
-
-        P1KeysAtk1 = controlKeysFont.render('Attack 1: E', True, WHITE)
-        gameWindow.blit(P1KeysAtk1, (975, 478))
-
-        P1KeysAtk2 = controlKeysFont.render('Attack 2: R', True, WHITE)
-        gameWindow.blit(P1KeysAtk2, (975, 500))
-
-        player1CharacterNameText = playerCharacterNameTextFont.render(f'{character_names[p1_character]}', True, WHITE)
-        player1CharacterNameLocation = player1CharacterNameText.get_rect(center = (960, 95))
-        gameWindow.blit(player1CharacterNameText, player1CharacterNameLocation)
-
-        #if player chosen these characters, selection arrow y will be adjusted
-        if p1_character == 1 or p1_character == 2:
-            characterSelectionP1ArrowY = character1SelectionPictureY + PORTRAIT_HEIGHT + 25
-    
-        elif p1_character == 3 or p1_character == 4:
-            characterSelectionP1ArrowY = character3SelectionPictureY + PORTRAIT_HEIGHT + 25
-
-        else:
-            characterSelectionP1ArrowY = 0
-
-        pygame.draw.polygon(gameWindow, WHITE, ((characterSelectionP1ArrowX[p1_character] - 20, characterSelectionP1ArrowY), (characterSelectionP1ArrowX[p1_character] + 20, characterSelectionP1ArrowY), (characterSelectionP1ArrowX[p1_character], characterSelectionP1ArrowY - 15)))
-
-    #if it's second player's turn
-    elif player == 2:
-        player2SelectText =  selectCharacterFont.render('Choose your character: (P2)', True, WHITE)
-        gameWindow.blit(player2SelectText, (140, 75))
-
-        #display controls
-        P2ControlText = controlFont.render('Player 2 Controls:', True, WHITE)
-        P2ControlTextLocation = P2ControlText.get_rect(center = (960, 437))
-        gameWindow.blit(P2ControlText, P2ControlTextLocation)
-
-        P2KeysJump = controlKeysFont.render('Jump: I', True, WHITE)
-        gameWindow.blit(P2KeysJump, (835, 478))
-
-        P2KeysRun = controlKeysFont.render('Run: J, L', True, WHITE)
-        gameWindow.blit(P2KeysRun, (835, 500))
-
-        P2KeysAtk1 = controlKeysFont.render('Attack 1: O', True, WHITE)
-        gameWindow.blit(P2KeysAtk1, (975, 478))
-
-        P2KeysAtk2 = controlKeysFont.render('Attack 2: P', True, WHITE)
-        gameWindow.blit(P2KeysAtk2, (975, 500))
-
-        player2CharacterNameText = playerCharacterNameTextFont.render(f'{character_names[p2_character]}', True, WHITE)
-        player2CharacterNameLocation = player2CharacterNameText.get_rect(center = (960, 95))
-        gameWindow.blit(player2CharacterNameText, player2CharacterNameLocation)
-
-        #adjust selection arrow Y coordinates
-        if p2_character == 1 or p2_character == 2:
-            characterSelectionP2ArrowY = character1SelectionPictureY + PORTRAIT_HEIGHT + 25
-    
-        elif p2_character == 3 or p2_character == 4:
-            characterSelectionP2ArrowY = character3SelectionPictureY + PORTRAIT_HEIGHT + 25
-
-        else:
-            characterSelectionP2ArrowY = 0
-
-        pygame.draw.polygon(gameWindow, WHITE, ((characterSelectionP2ArrowX[p2_character] - 20, characterSelectionP2ArrowY), (characterSelectionP2ArrowX[p2_character] + 20, characterSelectionP2ArrowY), (characterSelectionP2ArrowX[p2_character], characterSelectionP2ArrowY - 15)))
-    
-    #show characters and draw a box around their pfp
-    gameWindow.blit(character1SelectionPicture, (character1SelectionPictureX, character1SelectionPictureY))
-    pygame.draw.rect(gameWindow, DARKRED, (character1SelectionPictureX, character1SelectionPictureY, PORTRAIT_WIDTH, PORTRAIT_HEIGHT), 4)
-
-    gameWindow.blit(character2SelectionPicture, (character2SelectionPictureX, character2SelectionPictureY))
-    pygame.draw.rect(gameWindow, DARKRED, (character2SelectionPictureX, character2SelectionPictureY, PORTRAIT_WIDTH, PORTRAIT_HEIGHT), 4)
-
-    gameWindow.blit(character3SelectionPicture, (character3SelectionPictureX, character3SelectionPictureY))
-    pygame.draw.rect(gameWindow, DARKRED, (character3SelectionPictureX, character3SelectionPictureY, PORTRAIT_WIDTH, PORTRAIT_HEIGHT), 4)    
-
-    gameWindow.blit(character4SelectionPicture, (character4SelectionPictureX, character4SelectionPictureY))
-    pygame.draw.rect(gameWindow, DARKRED, (character4SelectionPictureX, character4SelectionPictureY, PORTRAIT_WIDTH, PORTRAIT_HEIGHT), 4)
-
-    #if player is 2, they have a restriction from choosing p1's character
-    if player == 2:
-        takenCharacterDisplayX = characterDisplayXList[p1_character - 1]
-        takenCharacterDisplayY = characterDisplayYList[p1_character - 1]
-        pygame.draw.rect(gameWindow, DARKRED, (takenCharacterDisplayX, takenCharacterDisplayY, PORTRAIT_WIDTH, PORTRAIT_HEIGHT))
-        takenCharacterText1 = taken_character_text_font.render('Taken', True, WHITE)
-        takenCharacterText2 = taken_character_text_font.render('By P1', True, WHITE)
-        takenCharacterTextLocation1 = takenCharacterText1.get_rect(center = (takenCharacterDisplayX + PORTRAIT_WIDTH//2, takenCharacterDisplayY + PORTRAIT_HEIGHT//2 - 15))
-        takenCharacterTextLocation2 = takenCharacterText2.get_rect(center = (takenCharacterDisplayX + PORTRAIT_WIDTH//2, takenCharacterDisplayY + PORTRAIT_HEIGHT//2 + 15))
-        gameWindow.blit(takenCharacterText1, takenCharacterTextLocation1)
-        gameWindow.blit(takenCharacterText2, takenCharacterTextLocation2)
-
-
-
-#showcases their selected character on the side
-def displaySelectedCharacter(player):
-
-    global selectedCharacterReferenceTime
-    global frame
-
-    #chooses their selected character from the list
-    if player == 1:
-        temp_list = displayCharacterList[p1_character - 1]
-    if player == 2:
-        temp_list = displayCharacterList[p2_character - 1]
-
-    #same animation process as menu background function
-    updateSpeed = 150
-    timeCharacter = pygame.time.get_ticks()
-
-    if timeCharacter - selectedCharacterReferenceTime > updateSpeed:
-        selectedCharacterReferenceTime = timeCharacter
-        frame += 1
-
-    if frame >= len(temp_list[0]) - 1:
-        frame = 0
-
-    gameWindow.blit(temp_list[0][frame], (513, -60))
-
-
-
-
-
-
-#display map background in fighting windows
-def displayBackground():
-
-    global map
-    global selected_map
-    global gameBackgroundTime
-    global mapFrame
-
-    updateSpeed = 150
-
-    timeBG = pygame.time.get_ticks()
-    if timeBG - gameBackgroundTime > updateSpeed:
-        gameBackgroundTime = timeBG
-        mapFrame += 1
-
-    if mapFrame >= len(background1):
-        mapFrame = 0
-        
-    gameWindow.blit(map[mapFrame], (0,0))
-
-
-
-#load in map info, such as selected map and ground level
-def loadMap():
-
-    global GROUND_LEVEL
-    global map
-
-    GROUND_LEVEL = mapGroundLevel[selected_map]
-    map = mapPool[selected_map]
-
 
 
 #load in every attribute of player 1's character
@@ -653,23 +273,23 @@ def loadPlayer1():
     global player1_atk2_cooldown
     global player1_atk2_cooldown
 
-    player1_PFP = pfp[p1_character]
-    player1_ANIMATIONLIST_LEFT = animationlist_left[p1_character]
-    player1_ANIMATIONLIST_RIGHT = animationlist_right[p1_character]
-    player1_hitbox_width = HITBOX_WIDTH[p1_character]
-    player1_hitbox_height = HITBOX_HEIGHT[p1_character]
-    player1_atk1_width = ATK1_WIDTH[p1_character]
-    player1_atk1_height = ATK1_HEIGHT[p1_character]
-    player1_atk1_hitframe = ATK1_HIT_FRAME[p1_character]
-    player1_atk1_y_shift = ATK1_Y_SHIFT[p1_character]
-    player1_atk1_damage = ATK1_DAMAGE[p1_character]
-    player1_atk1_cooldown = ATK1_COOLDOWN[p1_character]
-    player1_atk2_width = ATK2_WIDTH[p1_character]
-    player1_atk2_height = ATK2_HEIGHT[p1_character]
-    player1_atk2_hitframe = ATK2_HIT_FRAME[p1_character]
-    player1_atk2_y_shift = ATK2_Y_SHIFT[p1_character]
-    player1_atk2_damage = ATK2_DAMAGE[p1_character]
-    player1_atk2_cooldown = ATK2_COOLDOWN[p1_character]
+    player1_PFP = pfp[GameState.p1_character]
+    player1_ANIMATIONLIST_LEFT = animationlist_left[GameState.p1_character]
+    player1_ANIMATIONLIST_RIGHT = animationlist_right[GameState.p1_character]
+    player1_hitbox_width = HITBOX_WIDTH[GameState.p1_character]
+    player1_hitbox_height = HITBOX_HEIGHT[GameState.p1_character]
+    player1_atk1_width = ATK1_WIDTH[GameState.p1_character]
+    player1_atk1_height = ATK1_HEIGHT[GameState.p1_character]
+    player1_atk1_hitframe = ATK1_HIT_FRAME[GameState.p1_character]
+    player1_atk1_y_shift = ATK1_Y_SHIFT[GameState.p1_character]
+    player1_atk1_damage = ATK1_DAMAGE[GameState.p1_character]
+    player1_atk1_cooldown = ATK1_COOLDOWN[GameState.p1_character]
+    player1_atk2_width = ATK2_WIDTH[GameState.p1_character]
+    player1_atk2_height = ATK2_HEIGHT[GameState.p1_character]
+    player1_atk2_hitframe = ATK2_HIT_FRAME[GameState.p1_character]
+    player1_atk2_y_shift = ATK2_Y_SHIFT[GameState.p1_character]
+    player1_atk2_damage = ATK2_DAMAGE[GameState.p1_character]
+    player1_atk2_cooldown = ATK2_COOLDOWN[GameState.p1_character]
 
 
 
@@ -696,23 +316,23 @@ def loadPlayer2():
     global player2_atk2_cooldown
     global player2_atk2_cooldown
 
-    player2_PFP = pfp[p2_character]
-    player2_ANIMATIONLIST_LEFT = animationlist_left[p2_character]
-    player2_ANIMATIONLIST_RIGHT = animationlist_right[p2_character]
-    player2_hitbox_width = HITBOX_WIDTH[p2_character]
-    player2_hitbox_height = HITBOX_HEIGHT[p2_character]
-    player2_atk1_width = ATK1_WIDTH[p2_character]
-    player2_atk1_height = ATK1_HEIGHT[p2_character]
-    player2_atk1_hitframe = ATK1_HIT_FRAME[p2_character]
-    player2_atk1_y_shift = ATK1_Y_SHIFT[p2_character]
-    player2_atk1_damage = ATK1_DAMAGE[p2_character]
-    player2_atk1_cooldown = ATK1_COOLDOWN[p2_character]
-    player2_atk2_width = ATK2_WIDTH[p2_character]
-    player2_atk2_height = ATK2_HEIGHT[p2_character]
-    player2_atk2_hitframe = ATK2_HIT_FRAME[p2_character]
-    player2_atk2_y_shift = ATK2_Y_SHIFT[p2_character]
-    player2_atk2_damage = ATK2_DAMAGE[p2_character]
-    player2_atk2_cooldown = ATK2_COOLDOWN[p2_character]
+    player2_PFP = pfp[GameState.p2_character]
+    player2_ANIMATIONLIST_LEFT = animationlist_left[GameState.p2_character]
+    player2_ANIMATIONLIST_RIGHT = animationlist_right[GameState.p2_character]
+    player2_hitbox_width = HITBOX_WIDTH[GameState.p2_character]
+    player2_hitbox_height = HITBOX_HEIGHT[GameState.p2_character]
+    player2_atk1_width = ATK1_WIDTH[GameState.p2_character]
+    player2_atk1_height = ATK1_HEIGHT[GameState.p2_character]
+    player2_atk1_hitframe = ATK1_HIT_FRAME[GameState.p2_character]
+    player2_atk1_y_shift = ATK1_Y_SHIFT[GameState.p2_character]
+    player2_atk1_damage = ATK1_DAMAGE[GameState.p2_character]
+    player2_atk1_cooldown = ATK1_COOLDOWN[GameState.p2_character]
+    player2_atk2_width = ATK2_WIDTH[GameState.p2_character]
+    player2_atk2_height = ATK2_HEIGHT[GameState.p2_character]
+    player2_atk2_hitframe = ATK2_HIT_FRAME[GameState.p2_character]
+    player2_atk2_y_shift = ATK2_Y_SHIFT[GameState.p2_character]
+    player2_atk2_damage = ATK2_DAMAGE[GameState.p2_character]
+    player2_atk2_cooldown = ATK2_COOLDOWN[GameState.p2_character]
 
 
 
@@ -785,7 +405,7 @@ def p1Animation():
     else: 
         player1_atk1_animation = False   #keeps var false
 
-
+    #atk 2 animation
     if player1_atk2_animation and dx1 == 0:
         update_statusP1(5)
         if frameP1 >= len(player1_ANIMATIONLIST_LEFT[actionP1]) - 1:
@@ -1107,6 +727,7 @@ map_select = MapSelect()
 character_select_1 = CharacterSelect(1)
 character_select_2 = CharacterSelect(2)
 countdown = Countdown()
+gameover = GameOver()
 
 while in_play: 
 
@@ -1183,11 +804,7 @@ while in_play:
 
 
 
-
-
     while display_fight:
-
-        displayBackground()
 
         clock.tick(FPS)
         pygame.event.clear()
@@ -1310,7 +927,7 @@ while in_play:
 
             #p1 controls
             if keys[pygame.K_d]:     #move to right
-                if (player1_hitbox_y + player1_hitbox_height) == GROUND_LEVEL:
+                if (player1_hitbox_y + player1_hitbox_height) == MAP_GROUND_LEVEL:
                     actionP1 = 1
 
                 if player1Direction == "left":
@@ -1322,7 +939,7 @@ while in_play:
 
 
             elif keys[pygame.K_a]:      #move to left
-                if (player1_hitbox_y + player1_hitbox_height) == GROUND_LEVEL:
+                if (player1_hitbox_y + player1_hitbox_height) == MAP_GROUND_LEVEL:
                     actionP1 = 1
 
                 if player1Direction == "right":
@@ -1336,7 +953,7 @@ while in_play:
                 dx1 = 0
             
 
-            if (player1_hitbox_y + player1_hitbox_height) == GROUND_LEVEL:
+            if (player1_hitbox_y + player1_hitbox_height) == MAP_GROUND_LEVEL:
 
                 if keys[pygame.K_w]:     #jump
                     dy1 = JUMP_SPEED
@@ -1387,7 +1004,7 @@ while in_play:
             
             #p2 controls
             if keys[pygame.K_l]:    #move right
-                if (player2_hitbox_y + player2_hitbox_height) == GROUND_LEVEL:
+                if (player2_hitbox_y + player2_hitbox_height) == MAP_GROUND_LEVEL:
                     actionP2 = 1
 
                 if player2Direction == 'left':
@@ -1399,7 +1016,7 @@ while in_play:
 
 
             elif keys[pygame.K_j]:   #move left
-                if (player2_hitbox_y + player2_hitbox_height) == GROUND_LEVEL:
+                if (player2_hitbox_y + player2_hitbox_height) == MAP_GROUND_LEVEL:
                     actionP2 = 1
 
                 if player2Direction == 'right':
@@ -1412,7 +1029,7 @@ while in_play:
             else:
                 dx2 = 0
 
-            if (player2_hitbox_y + player2_hitbox_height) == GROUND_LEVEL:
+            if (player2_hitbox_y + player2_hitbox_height) == MAP_GROUND_LEVEL:
 
                 if keys[pygame.K_i]:    #jump
                     dy2 = JUMP_SPEED
@@ -1470,8 +1087,8 @@ while in_play:
         dy1 += GRAVITY
         player1_y += dy1
 
-        if player1_y > GROUND_LEVEL - playerH:
-            player1_y = GROUND_LEVEL - playerH
+        if player1_y > MAP_GROUND_LEVEL - playerH:
+            player1_y = MAP_GROUND_LEVEL - playerH
             dy1 = 0
 
 
@@ -1480,8 +1097,8 @@ while in_play:
         dy2 += GRAVITY
         player2_y += dy2
 
-        if player2_y > GROUND_LEVEL - playerH:
-            player2_y = GROUND_LEVEL - playerH
+        if player2_y > MAP_GROUND_LEVEL - playerH:
+            player2_y = MAP_GROUND_LEVEL - playerH
             dy2 = 0
 
         #--------------------------------------------------------------------------------------#
@@ -1500,27 +1117,7 @@ while in_play:
         #------------------------------------GAMEOVER MENU-------------------------------------#
         if deathAnimationOver:          #if death animation finished playing
 
-            tickSpeed = 1000
-            closeTimePassed = pygame.time.get_ticks()
-
-            #countdown to close
-            if closeTimePassed - gameCloseTime > tickSpeed:     #updates every second
-                gameCloseTime = closeTimePassed
-                closeCountdownLength -= 1
-
-            if closeCountdownLength <= 0:    #close the gamewindow when timer reaches 0
-                in_play = False
-                sys.exit()
-
-            gameOverText = gameOverTextFont.render('GAME OVER', True, WHITE)
-            gameOverTextLocation = gameOverText.get_rect(center = (WIDTH//2, HEIGHT//2))
-
-            gameCloseText = gameCloseTextFont.render(f'Game will auto close in {closeCountdownLength} seconds', True, WHITE)
-            gameCloseTextLocation = gameCloseText.get_rect(center = (WIDTH//2, HEIGHT//2 + 50))
-
-            gameWindow.blit(solidBlack, (0, 100))         #translucent image as background
-            gameWindow.blit(gameOverText, gameOverTextLocation)
-            gameWindow.blit(gameCloseText, gameCloseTextLocation)
+            gameover.display_gameover(gameWindow)
         #--------------------------------------------------------------------------------------#
 
         pygame.display.update()

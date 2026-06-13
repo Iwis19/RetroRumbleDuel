@@ -3,6 +3,9 @@ import sys
 from config import *
 
 class Screen:
+
+    BLACK_BACKGROUND = pygame.transform.scale(pygame.image.load(asset_path("COUNTDOWNBACKGROUND/solid_black.png")), (WIDTH, 400)).convert().set_alpha(210)
+
     def handle_view_button(self, mouse_position: tuple, information: int, condition: bool):
         if FORWARD_BUTTON_RECT.collidepoint(mouse_position) and condition:
             pygame.mixer.Channel(2).play(button_click_sound)
@@ -27,7 +30,7 @@ class Screen:
         pygame.draw.polygon(gameWindow, WHITE if condition else GRAY, ((FORWARD_BUTTON_X, MOVE_BUTTON_Y), (FORWARD_BUTTON_X, MOVE_BUTTON_Y + MOVE_BUTTON_H), (FORWARD_BUTTON_X + MOVE_BOTTON_W, MOVE_BUTTON_Y + MOVE_BUTTON_H//2)))   #forward
 
 
-    def display_animation(self, gameWindow, frames: list, frame_attr: str, reference_time_attr: str, location: tuple):
+    def display_animation(self, gameWindow, frames: list, frame_attr: str, reference_time_attr: str, location: tuple=ORIGIN):
         
         time = pygame.time.get_ticks()
         

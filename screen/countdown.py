@@ -8,11 +8,8 @@ class Countdown(Screen):
 
     MAPS = Map.load_all()
 
-    BLACK_BACKGROUND = pygame.transform.scale(pygame.image.load(asset_path("COUNTDOWNBACKGROUND/solid_black.png")), (WIDTH, 400)).convert()
-    BLACK_BACKGROUND.set_alpha(210)
-
     PLAYER_HUDS = [None, PlayerHUD(1), PlayerHUD(2)]
-
+    
     def __init__(self):
         self.background_frame = 0
         self.background_reference_timer = pygame.time.get_ticks()
@@ -50,4 +47,9 @@ class Countdown(Screen):
 
     def display_background(self, gameWindow, frames: list):
 
-        self.display_animation(gameWindow=gameWindow, frames=frames, frame_attr="background_frame", reference_time_attr="background_reference_timer", location=ORIGIN)
+        self.display_animation(
+            gameWindow=gameWindow, 
+            frames=frames, 
+            frame_attr="background_frame", 
+            reference_time_attr="background_reference_timer"
+        )

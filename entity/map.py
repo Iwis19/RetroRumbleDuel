@@ -13,6 +13,7 @@ class Map:
         self.map_number = map_number   # 0, 1, 2, 3, 4, 5
         self.map = None
         self.map_display = None
+        self.ground_level = MAP_GROUND_LEVEL[map_number]
 
         self.load_assets()
 

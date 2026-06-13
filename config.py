@@ -67,6 +67,7 @@ MAPSSS
 
 MAP_NUMBER = [0, 1, 2, 3, 4, 5]
 MAP_DISPLAY_SIZE = (200, 100)
+MAP_GROUND_LEVEL = [0, 500, 550, 565, 575, 553]
 
 
 
@@ -74,6 +75,11 @@ MAP_DISPLAY_SIZE = (200, 100)
 """
 CHARACTERS PROPERTY
 """
+
+JUMP_SPEED = -25
+GRAVITY = 2
+RUNNING_SPEED = 12
+MAX_HEALTH = 100
 
 CHARACTER_NAMES = ['None Selected', 'Fire Knight', 'Wind Hashashin', 'Water Priestess', 'Metal Bladekeeper']
 CHARACTER_FILE_NAMES = [None, 'fire_knight', 'wind_hashashin', 'water_priestess', 'metal_bladekeeper']
@@ -102,6 +108,16 @@ ATK2_COOLDOWN = [0, 5000, 4400, 4000, 7400]
 # atk damage
 ATK1_DAMAGE = [0, 24, 16, 14, 16]
 ATK2_DAMAGE = [0, 34, 32, 29, 37]
+
+
+"""
+PLAYER PROPERTY
+"""
+
+INITIAL_X = [0, -200, 500]
+INITIAL_Y = 150
+
+
 
 
 """
@@ -144,8 +160,8 @@ selectCharacterFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"),
 playerCharacterNameTextFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 25)
 taken_character_text_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 25)
 nameTextFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
-gameOverTextFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 60)
-gameCloseTextFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 18)
+game_over_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 60)
+game_close_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 18)
 
 
 
