@@ -10,12 +10,12 @@ pygame.mixer.pre_init(44100, -16, 2, 0)
 gameWindow = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Retro Rumble Duel")
 
-from screen.menu import Menu
-from screen.mapselect import MapSelect
-from screen.characterselect import CharacterSelect
-from screen.countdown import Countdown
-from screen.fight import Fight
-from screen.gameover import GameOver
+from screens.menu import Menu
+from screens.mapselect import MapSelect
+from screens.characterselect import CharacterSelect
+from screens.countdown import Countdown
+from screens.fight import Fight
+from screens.gameover import GameOver
 from helper.game_state import GameState
 
 #CONSTANTS
@@ -787,7 +787,7 @@ while in_play:
         if event == "FORWARD":
             GameState.p2_character = committed_character
 
-            fight = Fight(GameState.p1_character, GameState.p2_character)
+            fight = Fight(GameState.p1_character, GameState.p2_character, GameState.selected_map)
 
             display_character_select_2 = False
             display_countdown = True

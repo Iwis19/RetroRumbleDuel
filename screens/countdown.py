@@ -1,14 +1,13 @@
-from screen.screen import Screen
-from entity.map import Map
-from config import *
-from screen.hud.playerhud import PlayerHUD
 import pygame
+from config import *
+from entity.map import Map
+from screens.screen import Screen
+from screens.hud.playerhud import PlayerHUD
+
 
 class Countdown(Screen):
 
     MAPS = Map.load_all()
-
-    PLAYER_HUDS = [None, PlayerHUD(1), PlayerHUD(2)]
     
     def __init__(self):
         self.background_frame = 0
@@ -18,7 +17,7 @@ class Countdown(Screen):
 
     def display_countdown(self, gameWindow, map_number: int):
 
-        self.display_background(gameWindow, self.MAPS[map_number].map)
+        self.display_background(gameWindow, self.MAPS[map_number].animations)
         clock.tick(FPS)
 
         gameWindow.blit(self.BLACK_BACKGROUND, (0, 100))
@@ -36,8 +35,8 @@ class Countdown(Screen):
 
         gameWindow.blit(countdown_text, countdown_text_location)
 
-        self.PLAYER_HUDS[1].display_countdown_information(gameWindow, 90, (WIDTH//4 - 40, 270))
-        self.PLAYER_HUDS[2].display_countdown_information(gameWindow, 750, (3*WIDTH//4 + 20, 270))
+        PlayerHUD(1).display_countdown_information(gameWindow, 90, (WIDTH//4 - 40, 270))
+        PlayerHUD(2).display_countdown_information(gameWindow, 750, (3*WIDTH//4 + 20, 270))
 
     def get_time_text(self):
         if self.second > 0:

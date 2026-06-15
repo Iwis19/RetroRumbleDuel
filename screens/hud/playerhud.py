@@ -7,7 +7,7 @@ class PlayerHUD:
         self,
         player_number
     ):
-        self.player = Player(player_number)
+        self.player = Player(player_number, 1)
 
     def display_countdown_information(self, gameWindow, x, center):
 

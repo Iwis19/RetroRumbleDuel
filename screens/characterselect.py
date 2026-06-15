@@ -1,8 +1,9 @@
 import pygame
-from entity.character import Character
-from screen.menu import Menu
-from screen.screen import Screen
 from config import *
+from entity.character import Character
+from screens.menu import Menu
+from screens.screen import Screen
+
 
 class CharacterSelect(Screen):
 

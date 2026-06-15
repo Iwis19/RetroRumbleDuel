@@ -1,8 +1,9 @@
 import pygame
 from config import *
-from screen.screen import Screen
 from entity.player import Player
 from entity.map import Map
+from screens.screen import Screen
+
 
 class Fight(Screen):
 
@@ -12,16 +13,19 @@ class Fight(Screen):
         self,
         player_1_character: int,
         player_2_character: int,
-
-    ):
+        map_number: int
+    ):  
+        self.stage = self.MAPS[map_number]
         self.background_frame = 0
         self.background_reference_time = pygame.time.get_ticks()
-        self.player_1 = Player(player_1_character)
-        self.player_2 = Player(player_2_character)
+        self.player_1 = Player(1, player_1_character)
+        self.player_2 = Player(2, player_2_character)
+        self.player_1.enter_stage(self.stage)
+        self.player_2.enter_stage(self.stage)
 
-    def display_fight(self, gameWindow, map_number: int):
+    def display_fight(self, gameWindow):
         
-        self.display_background(gameWindow, self.MAPS[map_number].map)
+        self.display_background(gameWindow, self.stage.animations)
         clock.tick(FPS)
 
         gameWindow.blit(self.player_1.animations[self.player_1.direction][self.player_1.action][self.player_1.frame], self.player_1.get_location())

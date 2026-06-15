@@ -2,6 +2,7 @@ from __future__ import annotations
 import pygame
 from config import *
 from entity.character import Character
+from entity.map import Map
 
 
 class Player:
@@ -20,8 +21,7 @@ class Player:
     def __init__(
         self,
         player_number,  # 1 or 2
-        character_number,
-        ground_level
+        character_number
     ):
         self.cooldown = 80
         self.health = MAX_HEALTH
@@ -29,7 +29,7 @@ class Player:
         self.action = 0
         self.dx, self.dy = 0, 0
 
-        self.ground_level = ground_level
+        self.ground_level = 0
         self.character_number = character_number
         self.player_number = player_number
 
@@ -294,9 +294,10 @@ class Player:
             if enemy.health <= 0:
                 enemy.death_animation = True
                 enemy.alive = False
+
+    def enter_stage(self, stage: Map):
+        self.ground_level = stage.ground_level
         
-
-
     @property
     def on_ground(self):
         return (self.hitbox_y + self.hitbox_height) == self.ground_level     

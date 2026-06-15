@@ -4,7 +4,8 @@ from config import *
 
 class Screen:
 
-    BLACK_BACKGROUND = pygame.transform.scale(pygame.image.load(asset_path("COUNTDOWNBACKGROUND/solid_black.png")), (WIDTH, 400)).convert().set_alpha(210)
+    BLACK_BACKGROUND = pygame.transform.scale(pygame.image.load(asset_path("COUNTDOWNBACKGROUND/solid_black.png")), (WIDTH, 400)).convert()
+    BLACK_BACKGROUND.set_alpha(210)
 
     def handle_view_button(self, mouse_position: tuple, information: int, condition: bool):
         if FORWARD_BUTTON_RECT.collidepoint(mouse_position) and condition:

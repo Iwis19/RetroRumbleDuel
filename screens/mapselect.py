@@ -50,7 +50,7 @@ class MapSelect(Screen):
             map_text = mapTextFont.render(f"Map {map_number}", True, WHITE)
             map_text_location = map_text.get_rect(center = (self.MAP_DISPLAY_X[map_number] + self.MAP_DISPLAY_WIDTH//2, self.MAP_DISPLAY_Y - 20))
 
-            gameWindow.blit(self.MAPS[map_number].map_display, (self.MAP_DISPLAY_X[map_number], self.MAP_DISPLAY_Y))
+            gameWindow.blit(self.MAPS[map_number].preview_image, (self.MAP_DISPLAY_X[map_number], self.MAP_DISPLAY_Y))
             pygame.draw.rect(gameWindow, DARKRED, (self.MAP_DISPLAY_X[map_number], self.MAP_DISPLAY_Y, self.MAP_DISPLAY_WIDTH, self.MAP_DISPLAY_HEIGHT), 3)
             gameWindow.blit(map_text, map_text_location)
 
