@@ -9,7 +9,6 @@ class Player:
 
     PLAYER_W, PLAYER_H = 900, 400
     
-
     controls = {
         "right": [0, pygame.K_d, pygame.K_l],
         "left": [0, pygame.K_a, pygame.K_j],
@@ -34,7 +33,7 @@ class Player:
         self.player_number = player_number
 
         self.frame = 0
-        self.animation_reference_time = pygame.time.get_ticks()
+        self.time = pygame.time.get_ticks()
 
         self.direction = None
         self.character = None
@@ -76,11 +75,15 @@ class Player:
         self.atk2_damage = None
         self.atk2_cooldown = None
 
+        self.atk1_has_hit = False
+        self.atk2_has_hit = False
+
         self.atk1_hitbox = None
         self.atk2_hitbox = None
 
         self.last_atk1_time = None
         self.last_atk2_time = None
+        self.last_animation_time = None
 
         self.load_properties()
 
@@ -116,6 +119,7 @@ class Player:
 
         self.last_atk1_time = pygame.time.get_ticks()
         self.last_atk2_time = pygame.time.get_ticks()
+        self.last_animation_time = pygame.time.get_ticks()
 
         self.hitbox_y = self.y + (self.PLAYER_H - self.hitbox_height)
         self.hitbox_x = self.x + (self.PLAYER_W - self.hitbox_width)//2
@@ -140,6 +144,8 @@ class Player:
         return (self.x, self.y)
     
     def update(self):
+
+        self.time = pygame.time.get_ticks()
 
         self.hitbox_y = self.y + (self.PLAYER_H - self.hitbox_height)
         self.hitbox_x = self.x + (self.PLAYER_W - self.hitbox_width)//2
@@ -180,91 +186,99 @@ class Player:
 
         if not self.stop_animation:
 
-            time = pygame.time.get_ticks()
+            cooldown = self.cooldown
+
             if self.dx == 0 and not self.atk1_animation and not self.atk2_animation and not self.takehit_animation and not self.death_animation:
-                self.update_action(0, "time")
+                self.update_action(0)
 
             if self.dy < 0:
                 cooldown = 150
-                self.update_action(2, "time")
+                self.update_action(2)
             
             if self.dy > 0:
                 cooldown = 100
-                self.update_action(3, "time")
+                self.update_action(3)
 
             if self.atk1_animation and self.dx == 0:
-                self.update_action(4, "time")
-                if self.frame == len(self.animations[self.direction][self.action]):
+                self.update_action(4)
+                if self.frame >= len(self.animations[self.direction][self.action]) - 1:
                     self.action = 0
+                    self.frame = 0
                     self.atk1_animation = False
             
             if self.atk2_animation and self.dx == 0:
-                self.update_action(5, "time")
-                if self.frame == len(self.animations[self.direction][self.action]):
+                self.update_action(5)
+                if self.frame >= len(self.animations[self.direction][self.action]) - 1:
                     self.action = 0
+                    self.frame = 0
                     self.atk2_animation = False
 
             if self.takehit_animation and self.alive:
-                self.update_action(6, "time")
-                if self.frame == len(self.animations[self.direction][self.action]):
+                self.update_action(6)
+                if self.frame >= len(self.animations[self.direction][self.action]) - 1:
                     self.action = 0
+                    self.frame = 0
                     self.takehit_animation = False
 
             if self.death_animation:
-                self.update_action(7, "time")
-                if self.frame == len(self.animations[self.direction][self.action]):
+                self.update_action(7)
+                if self.frame >= len(self.animations[self.direction][self.action]) - 1:
                     self.frame = len(self.animations[self.direction][self.action]) - 1
                     self.stop_animation = True
 
-            if time - self.animation_reference_time > cooldown and not self.stop_animation:
-                self.animation_reference_time = time
+            if self.time - self.last_animation_time > cooldown:
+                self.last_animation_time = self.time
                 self.frame += 1
 
-            if self.frame == len(self.animations[self.direction][self.action]) and self.action != 7:
+            if self.frame >= len(self.animations[self.direction][self.action]) and self.action != 7:
                 self.frame = 0
 
     
-    # reference time is going to be time(p1)
-    def update_action(self, new_action: int, reference_time_attr: str):  
+    def update_action(self, new_action: int):  
         if self.action != new_action:
             self.action = new_action
             self.frame = 0
-            setattr(self, reference_time_attr, pygame.time.get_ticks())
+            self.last_animation_time = pygame.time.get_ticks()
 
 
     def handle_player_events(self):
 
         if not self.takehit_animation and self.alive:
+            
+            keys = pygame.key.get_pressed()
 
-            for event in pygame.event.get():
+            # move right
+            if keys[self.controls["right"][self.player_number]]:
+                if self.on_ground:
+                    self.action = 1
+                
+                if self.direction == 0:
+                    self.direction = 1
+                    self.frame = 0
+                
+                else:
+                    self.dx = RUNNING_SPEED
+
+            # move left
+            elif keys[self.controls["left"][self.player_number]]:
+                if self.on_ground:
+                    self.action = 1
+                
+                if self.direction == 1:
+                    self.direction = 0
+                    self.frame = 0
+                
+                else:
+                    self.dx = -RUNNING_SPEED
+
+            else:
+                self.dx = 0
+
+
+            events = pygame.event.get()
+
+            for event in events:
                 if event.type == pygame.KEYDOWN:
-                    
-                    # move right
-                    if event.key == self.controls["right"][self.player_number]:
-                        if self.on_ground:
-                            self.action = 1
-                        
-                        if self.direction == 0:
-                            self.direction = 1
-                            self.frame = 0
-                        
-                        else:
-                            self.dx = RUNNING_SPEED
-
-                    # move left
-                    elif event.key == self.controls["left"][self.player_number]:
-                        if self.on_ground:
-                            self.action = 1
-                        
-                        if self.direction == 1:
-                            self.direction = 0
-                            self.frame = 0
-                        
-                        else:
-                            self.dx = -RUNNING_SPEED
-
-                    else:
-                        self.dx = 0
                 
                     if self.on_ground:
 
@@ -275,10 +289,40 @@ class Player:
                         if not self.atk1_animation and not self.atk2_animation:
 
                             # atk 1
-                            if event.key == self.controls["atk1"][self.player_number] : #TODO: TIMER HERE
-                                pass
+                            if event.key == self.controls["atk1"][self.player_number] and self.can_use_atk1:
+                                self.atk1_animation = True
+                                self.last_atk1_time = self.time
+                                self.atk1_has_hit = False
 
                             # atk 2
+                            if event.key == self.controls["atk2"][self.player_number] and self.can_use_atk2:
+                                self.atk2_animation = True
+                                self.last_atk2_time = self.time
+                                self.atk2_has_hit = False
+
+
+    def update_attack_hitboxes(self):
+        self.atk1_hitbox = pygame.Rect(0, 0, 0, 0)
+        self.atk2_hitbox = pygame.Rect(0, 0, 0, 0)
+
+        if self.action == 4 and self.frame == self.atk1_hitframe and not self.atk1_has_hit:
+            self.atk1_hitbox = pygame.Rect(
+                self.atk1_x[self.direction],
+                self.atk1_y,
+                self.atk1_width,
+                self.atk1_height
+            )
+            self.atk1_has_hit = True
+
+        if self.action == 5 and self.frame == self.atk2_hitframe and not self.atk2_has_hit:
+            self.atk2_hitbox = pygame.Rect(
+                self.atk2_x[self.direction],
+                self.atk2_y,
+                self.atk2_width,
+                self.atk2_height
+            )
+            self.atk2_has_hit = True
+
 
     def player_hit(self, enemy: Player):
         if self.atk1_hitbox.colliderect(enemy.hitbox):
@@ -297,6 +341,14 @@ class Player:
 
     def enter_stage(self, stage: Map):
         self.ground_level = stage.ground_level
+
+    @property
+    def can_use_atk1(self):
+        return self.time - self.last_atk1_time > self.atk1_cooldown
+    
+    @property
+    def can_use_atk2(self):
+        return self.time - self.last_atk2_time > self.atk2_cooldown
         
     @property
     def on_ground(self):

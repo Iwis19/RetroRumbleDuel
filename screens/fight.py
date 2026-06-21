@@ -34,8 +34,16 @@ class Fight(Screen):
         gameWindow.blit(self.player_2.animations[self.player_2.direction][self.player_2.action][self.player_2.frame], self.player_2.get_location())
         self.player_2.animation()
 
+        self.player_1.handle_player_events()
+        self.player_1.update_attack_hitboxes()
+
+        self.player_2.handle_player_events()
+        self.player_2.update_attack_hitboxes()
+
         self.player_1.update()
         self.player_2.update()
+
+        self.player_hit()
 
 
     def display_background(self, gameWindow, frames: list):
@@ -47,22 +55,14 @@ class Fight(Screen):
             reference_time_attr="background_reference_time",
             location=ORIGIN
         )
-
-    
-    def handle_events(self, map_number: int):
-
-        #if not self.player_1
-
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-
-                # move right
-                #if event.key == pygame.K_d:
-                pass
                     
 
     def player_hit(self):
         
         self.player_1.player_hit(self.player_2)
         self.player_2.player_hit(self.player_1)
-        
+
+
+    @property
+    def death_animation_over(self):
+        return self.player_1.stop_animation or self.player_2.stop_animation

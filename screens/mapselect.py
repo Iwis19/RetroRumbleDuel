@@ -1,7 +1,7 @@
 import pygame
-from screen.menu import Menu
+from screens.menu import Menu
 from entity.map import Map
-from screen.screen import Screen
+from screens.screen import Screen
 from config import *
 
 class MapSelect(Screen):

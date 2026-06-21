@@ -1,7 +1,7 @@
 import pygame
 import sys
 from config import *
-from screen.screen import Screen
+from screens.screen import Screen
 
 class GameOver(Screen):
 
