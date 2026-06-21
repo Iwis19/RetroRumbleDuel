@@ -2,8 +2,6 @@ import pygame
 
 pygame.init()
 
-import sys
-import os
 from config import *
 
 pygame.mixer.pre_init(44100, -16, 2, 0)
@@ -34,11 +32,6 @@ print("Hold ESC to Exit Game Window.")
 
 menuBackgroundMusic.play(-1)
 
-########################IN GAME STATE NOW####################
-# selected_map = 0
-# p1_character = 0
-# p2_character = 0
-
 background = Menu()
 map_select = MapSelect()
 character_select_1 = CharacterSelect(1)
@@ -60,6 +53,7 @@ while in_play:
         pygame.display.update()
         
 
+
     while display_map_select:
         map_select.display_map_select(gameWindow)
         event, committed_map = map_select.handle_events()
@@ -73,6 +67,7 @@ while in_play:
         if event == "BACK":
             display_map_select = False
             display_background = True
+
 
 
     while display_character_select_1:
@@ -111,6 +106,7 @@ while in_play:
         if event == "BACK":
             display_character_select_2 = False
             display_character_select_1 = True
+
 
     
     while display_countdown:
