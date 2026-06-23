@@ -4,7 +4,7 @@ Python-based local multiplayer fighting game built with Pygame. Players select a
 ---
 
 ## Repository Note
-You may wonder why this is all stuck in one big file and there are no OOP principles or any other classes, thats because my teacher said no to using classes as their final project. ( ˘︹˘ ) will probably refactor this as practice tho
+Refactored like what i wanted to do way before in this repo note
 
 ---
 
