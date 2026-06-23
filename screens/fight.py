@@ -38,9 +38,6 @@ class Fight(Screen):
         self.player_2.animation()
 
         self.handle_events()
-        
-        self.player_1.update_attack_hitboxes()
-        self.player_2.update_attack_hitboxes()
 
         self.player_1.update()
         self.player_2.update()

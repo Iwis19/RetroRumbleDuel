@@ -140,12 +140,14 @@ class Player:
         self.hitbox = pygame.Rect(self.hitbox_x, self.hitbox_y, self.hitbox_width, self.hitbox_height)
     
     def update(self):
-
         self.time = pygame.time.get_ticks()
 
-        self.hitbox_y = self.y + (self.PLAYER_H - self.hitbox_height)
-        self.hitbox_x = self.x + (self.PLAYER_W - self.hitbox_width)//2
+        self.update_atk_location()
+        self.update_hitbox()
+        self.update_location()
+        self.update_attack_hitboxes()
 
+    def update_atk_location(self):
         self.atk1_y = self.hitbox_y + self.atk1_y_shift
         self.atk1_x = [self.hitbox_x - self.atk1_width, self.hitbox_x + self.hitbox_width]
 
@@ -158,8 +160,12 @@ class Player:
         else:
             self.atk2_x = [self.hitbox_x - self.atk2_width, self.hitbox_x + self.hitbox_width]
 
+    def update_hitbox(self):
+        self.hitbox_y = self.y + (self.PLAYER_H - self.hitbox_height)
+        self.hitbox_x = self.x + (self.PLAYER_W - self.hitbox_width)//2
         self.hitbox = pygame.Rect(self.hitbox_x, self.hitbox_y, self.hitbox_width, self.hitbox_height)
 
+    def update_location(self):
         self.x += self.dx
         self.dy += GRAVITY
         self.y += self.dy
@@ -168,10 +174,6 @@ class Player:
             self.y = self.ground_level - self.PLAYER_H
             self.dy = 0
 
-        self.check_boundaries()
-
-
-    def check_boundaries(self):
         if self.x <= (LEFT - (self.PLAYER_W - self.hitbox_width)//2):
             self.x = (LEFT - (self.PLAYER_W - self.hitbox_width)//2)
 
@@ -198,22 +200,19 @@ class Player:
             if self.atk1_animation and self.dx == 0:
                 self.update_action(4)
                 if self.frame >= len(self.animations[self.direction][self.action]) - 1:
-                    self.action = 0
-                    self.frame = 0
+                    self.update_action(0)
                     self.atk1_animation = False
             
             if self.atk2_animation and self.dx == 0:
                 self.update_action(5)
                 if self.frame >= len(self.animations[self.direction][self.action]) - 1:
-                    self.action = 0
-                    self.frame = 0
+                    self.update_action(0)
                     self.atk2_animation = False
 
             if self.takehit_animation and self.is_alive:
                 self.update_action(6)
                 if self.frame >= len(self.animations[self.direction][self.action]) - 1:
-                    self.action = 0
-                    self.frame = 0
+                    self.update_action(0)
                     self.takehit_animation = False
 
             if self.death_animation:
@@ -245,40 +244,61 @@ class Player:
 
             # move right
             if keys[self.controls["right"][self.player_number]]:
+                
+                if self.atk1_animation:
+                    self.atk1_animation = False
+                    self.atk1_has_hit = True
+
+                if self.atk2_animation:
+                    self.atk2_animation = False
+                    self.atk2_has_hit = True
+
                 if self.on_ground:
-                    self.action = 1
+                    self.update_action(1)
                 
                 if self.direction == 0:
                     self.direction = 1
                     self.frame = 0
-                
-                else:
-                    self.dx = RUNNING_SPEED
+                    
+                self.dx = RUNNING_SPEED
 
             # move left
             elif keys[self.controls["left"][self.player_number]]:
+
+                # cancels the animation when i click left or right but:
+                """
+                1. cant even have atk animation on when i jump, doesnt set it to run, but just sets hte direction of motion
+                2. when i acc have atk animation, i cancel the animations and etc
+                """
+                if self.atk1_animation:
+                    self.atk1_animation = False
+                    self.atk1_has_hit = True
+
+                if self.atk2_animation:
+                    self.atk2_animation = False
+                    self.atk2_has_hit = True
+
                 if self.on_ground:
-                    self.action = 1
+                    self.update_action(1)
                 
                 if self.direction == 1:
                     self.direction = 0
                     self.frame = 0
-                
-                else:
-                    self.dx = -RUNNING_SPEED
+            
+                self.dx = -RUNNING_SPEED
 
             else:
                 self.dx = 0
+
+            if self.on_ground:
+                if keys[self.controls["jump"][self.player_number]]:
+                    self.dy = JUMP_SPEED
 
             for event in events:
                 if event.type == pygame.KEYDOWN:
                 
                     if self.on_ground:
-
-                        # jump
-                        if event.key == self.controls["jump"][self.player_number]:
-                            self.dy = JUMP_SPEED
-
+                            
                         if not self.atk1_animation and not self.atk2_animation:
 
                             # atk 1
@@ -329,6 +349,7 @@ class Player:
             enemy.takehit_animation = True
             if enemy.health <= 0:
                 enemy.death_animation = True
+
 
     def enter_stage(self, stage: Map):
         self.ground_level = stage.ground_level

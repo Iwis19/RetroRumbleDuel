@@ -46,7 +46,7 @@ class MapSelect(Screen):
         self.display_view_buttons(gameWindow, self.can_move)
 
         # map squares for choices
-        for map_number in range(1, len(MAP_NUMBER)): # MAPS contains map 1-5 and 0 as place holder for none
+        for map_number in range(1, len(MAP_NUMBER)):          # MAPS contains map 1-5 and 0 as place holder for none
             map_text = map_text_font.render(f"Map {map_number}", True, WHITE)
             map_text_location = map_text.get_rect(center = (self.MAP_DISPLAY_X[map_number] + self.MAP_DISPLAY_WIDTH//2, self.MAP_DISPLAY_Y - 20))
 
