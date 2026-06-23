@@ -22,7 +22,7 @@ class Menu(Screen):
     def display_menu(self, gameWindow):
 
         title_text = pygame.transform.scale(pygame.image.load(asset_path("MENUBACKGROUND/RetroRumbleDuel.png")), (WIDTH,HEIGHT)).convert_alpha()
-        continue_text = continueTextFont.render("Hold SPACEBAR to Continue", True, WHITE)
+        continue_text = continue_text_font.render("Hold SPACEBAR to Continue", True, WHITE)
         continue_text_location = continue_text.get_rect(center = (WIDTH//2, 370))
 
         self.display_background(gameWindow)

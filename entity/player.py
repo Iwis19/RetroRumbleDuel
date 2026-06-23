@@ -24,7 +24,6 @@ class Player:
     ):
         self.cooldown = 80
         self.health = MAX_HEALTH
-        self.alive = True
         self.action = 0
         self.dx, self.dy = 0, 0
 
@@ -139,9 +138,6 @@ class Player:
         self.atk1_hitbox = pygame.Rect(0,0,0,0)
         self.atk2_hitbox = pygame.Rect(0,0,0,0)
         self.hitbox = pygame.Rect(self.hitbox_x, self.hitbox_y, self.hitbox_width, self.hitbox_height)
-
-    def get_location(self):
-        return (self.x, self.y)
     
     def update(self):
 
@@ -213,7 +209,7 @@ class Player:
                     self.frame = 0
                     self.atk2_animation = False
 
-            if self.takehit_animation and self.alive:
+            if self.takehit_animation and self.is_alive:
                 self.update_action(6)
                 if self.frame >= len(self.animations[self.direction][self.action]) - 1:
                     self.action = 0
@@ -241,9 +237,9 @@ class Player:
             self.last_animation_time = pygame.time.get_ticks()
 
 
-    def handle_player_events(self):
+    def handle_player_events(self, events):
 
-        if not self.takehit_animation and self.alive:
+        if not self.takehit_animation and self.is_alive:
             
             keys = pygame.key.get_pressed()
 
@@ -273,9 +269,6 @@ class Player:
 
             else:
                 self.dx = 0
-
-
-            events = pygame.event.get()
 
             for event in events:
                 if event.type == pygame.KEYDOWN:
@@ -330,17 +323,31 @@ class Player:
             enemy.takehit_animation = True
             if enemy.health <= 0:
                 enemy.death_animation = True
-                enemy.alive = False
 
         if self.atk2_hitbox.colliderect(enemy.hitbox):
             enemy.health -= self.atk2_damage
             enemy.takehit_animation = True
             if enemy.health <= 0:
                 enemy.death_animation = True
-                enemy.alive = False
 
     def enter_stage(self, stage: Map):
         self.ground_level = stage.ground_level
+
+    def get_location(self):
+        return (self.x, self.y)
+
+    def get_health_percentage(self):
+        return self.health / MAX_HEALTH
+    
+    def get_atk1_recharge_percentage(self):
+        return (self.time - self.last_atk1_time) / self.atk1_cooldown
+    
+    def get_atk2_recharge_percentage(self):
+        return (self.time - self.last_atk2_time) / self.atk2_cooldown
+
+    @property
+    def is_alive(self):
+        return self.health > 0
 
     @property
     def can_use_atk1(self):

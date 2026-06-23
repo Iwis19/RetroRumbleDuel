@@ -37,7 +37,7 @@ class MapSelect(Screen):
         gameWindow.blit(self.BACKGROUND_DISPLAY, ORIGIN)
 
         # text and background boxes
-        choose_map_text = selectMapFont.render("Select the Duel Stage:", True, WHITE)
+        choose_map_text = select_map_font.render("Select the Duel Stage:", True, WHITE)
         choose_map_text_location = choose_map_text.get_rect(center = (WIDTH//2, 170))
         pygame.draw.rect(gameWindow, BLACK, (20, 20, 1160, 560), False, 3)            #black box background
         pygame.draw.rect(gameWindow, DARKRED, (20, 20 , 1160, 560), 4, 3)           #red outline of the black box
@@ -47,7 +47,7 @@ class MapSelect(Screen):
 
         # map squares for choices
         for map_number in range(1, len(MAP_NUMBER)): # MAPS contains map 1-5 and 0 as place holder for none
-            map_text = mapTextFont.render(f"Map {map_number}", True, WHITE)
+            map_text = map_text_font.render(f"Map {map_number}", True, WHITE)
             map_text_location = map_text.get_rect(center = (self.MAP_DISPLAY_X[map_number] + self.MAP_DISPLAY_WIDTH//2, self.MAP_DISPLAY_Y - 20))
 
             gameWindow.blit(self.MAPS[map_number].preview_image, (self.MAP_DISPLAY_X[map_number], self.MAP_DISPLAY_Y))
@@ -57,8 +57,8 @@ class MapSelect(Screen):
         # map selection arrow
         pygame.draw.polygon(gameWindow, WHITE, ((self.MAP_SELECTION_ARROW_X[self.selected_map] - 20, self.MAP_SELECTION_ARROW_Y), (self.MAP_SELECTION_ARROW_X[self.selected_map] + 20, self.MAP_SELECTION_ARROW_Y), (self.MAP_SELECTION_ARROW_X[self.selected_map], self.MAP_SELECTION_ARROW_Y - 15)) )
 
-        chosen_map = selectedMapFont.render(f"Selected: Map {self.selected_map}", True, WHITE)
-        no_chosen_map = selectedMapFont.render(f"Selected: None", True, WHITE)
+        chosen_map = selected_map_font.render(f"Selected: Map {self.selected_map}", True, WHITE)
+        no_chosen_map = selected_map_font.render(f"Selected: None", True, WHITE)
         chosen_map_location = chosen_map.get_rect(center = (WIDTH//2, 465))
 
         if self.selected_map > 0:

@@ -16,11 +16,6 @@ def asset_path(*path_parts):
 
 
 """
-MANAGED !!!VARIABLES!!!
-"""
-
-
-"""
 GENERAL CONSTANTS
 """
 
@@ -34,8 +29,6 @@ LEFT = 0
 RIGHT = WIDTH
 TOP = 0
 BOTTOM = HEIGHT
-
-
 
 ORIGIN = (0,0)
 
@@ -62,14 +55,12 @@ CHARACTER_DIMENSION = (IMAGE_WIDTH, IMAGE_HEIGHT)
 
 
 """
-MAPSSS
+MAPS PROPERTY
 """
 
 MAP_NUMBER = [0, 1, 2, 3, 4, 5]
 MAP_DISPLAY_SIZE = (200, 100)
 MAP_GROUND_LEVEL = [0, 500, 550, 565, 575, 553]
-
-
 
 
 """
@@ -86,7 +77,6 @@ CHARACTER_FILE_NAMES = [None, 'fire_knight', 'wind_hashashin', 'water_priestess'
 
 HITBOX_WIDTH = [0, 100, 90, 80, 100]
 HITBOX_HEIGHT = [0, 150, 125, 125, 138]
-
 
 # atk hitboxes
 ATK1_Y_SHIFT = [0, -100, 25, 40, 30]
@@ -109,15 +99,15 @@ ATK2_COOLDOWN = [0, 5000, 4400, 4000, 7400]
 ATK1_DAMAGE = [0, 24, 16, 14, 16]
 ATK2_DAMAGE = [0, 34, 32, 29, 37]
 
-
-"""
-PLAYER PROPERTY
-"""
-
 INITIAL_X = [0, -200, 500]
 INITIAL_Y = 150
 
 
+"""
+PLAYER HUD 
+"""
+
+REFERENCE_BAR_X = [0, 130, 1070]
 
 
 """
@@ -132,8 +122,8 @@ BLUE =     (  0,  0,255)
 GRAY =     (128,128,128)
 DARKRED =  (169, 29, 58)
 BROWN =    (207,132, 62)
-BAR =      (250,250,250)
-CDBLUE =   ( 25,134,252)
+BAR_COLOR =      (250,250,250)
+CD_BLUE =   ( 25,134,252)
 YELLOW =   (255,195, 11)
 HOVER =    (222,182, 71)
 
@@ -144,22 +134,19 @@ HOVER =    (222,182, 71)
 FONTS
 """
 
-menuTextFont = pygame.font.SysFont("calibri", 26, WHITE)
-mapSelectionTextFont = pygame.font.SysFont("calibri", 28, WHITE)
-continueTextFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 21)
-mapTextFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 21)
-selectMapFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 25)
-selectedMapFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 23)
-countdownFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 39)
+continue_text_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 21)
+map_text_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 21)
+select_map_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 25)
+selected_map_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 23)
+countdown_text_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 39)
 gui_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
 gui_information_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 15)
-playerNameFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
-controlFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
-controlKeysFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 17)
-selectCharacterFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 28)
-playerCharacterNameTextFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 25)
+control_text_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
+control_keys_text_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 17)
+select_character_text_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 28)
+player_character_name_text_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 25)
 taken_character_text_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 25)
-nameTextFont = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
+name_text_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 20)
 game_over_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 60)
 game_close_font = pygame.font.Font(asset_path("font", "PixelDigivolve.ttf"), 18)
 

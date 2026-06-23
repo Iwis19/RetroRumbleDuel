@@ -29,3 +29,8 @@ class GameOver(Screen):
         gameWindow.blit(self.BLACK_BACKGROUND, (0, 100))
         gameWindow.blit(game_over_text, game_over_text_location)
         gameWindow.blit(game_close_text, game_close_text_location)
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                self.handle_exit_button(event)

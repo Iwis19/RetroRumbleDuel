@@ -36,7 +36,7 @@ background = Menu()
 map_select = MapSelect()
 character_select_1 = CharacterSelect(1)
 character_select_2 = CharacterSelect(2)
-countdown = Countdown()
+countdown = None
 fight = None
 gameover = GameOver()
 
@@ -98,6 +98,7 @@ while in_play:
         if event == "FORWARD":
             GameState.p2_character = committed_character
 
+            countdown = Countdown(GameState.p1_character, GameState.p2_character)
             fight = Fight(GameState.p1_character, GameState.p2_character, GameState.selected_map)
 
             display_character_select_2 = False
@@ -111,7 +112,8 @@ while in_play:
     
     while display_countdown:
 
-        countdown.display_countdown(gameWindow, map_number=GameState.selected_map)
+        countdown.display_countdown(gameWindow, map_number=GameState.selected_map, p1_character=GameState.p1_character, p2_character=GameState.p2_character)
+        countdown.handle_events()
 
         pygame.display.update()
 
@@ -124,12 +126,9 @@ while in_play:
     while display_fight:
 
         fight.display_fight(gameWindow)
-
-        #p1GUI()
-        #p2GUI()
-        #--------------------------------------------------------------------------------------#
         
         if fight.death_animation_over:          #if death animation finished playing
             gameover.display_gameover(gameWindow)
+            gameover.handle_events()
         
         pygame.display.update()

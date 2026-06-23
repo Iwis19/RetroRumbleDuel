@@ -59,19 +59,19 @@ class CharacterSelect(Screen):
         
         self.display_selected_character(gameWindow)
 
-        player_select_text = selectCharacterFont.render(f"Choose your character: (P{self.player})", True, WHITE)
+        player_select_text = select_character_text_font.render(f"Choose your character: (P{self.player})", True, WHITE)
         gameWindow.blit(player_select_text, (140, 75))
 
-        player_control_title = controlFont.render(f"Player {self.player} Controls:", True, WHITE)
+        player_control_title = control_text_font.render(f"Player {self.player} Controls:", True, WHITE)
         player_control_title_location = player_control_title.get_rect(center = (960, 437))
         gameWindow.blit(player_control_title, player_control_title_location)
 
         player_control_index = self.player - 1
         for i in range(len(self.PLAYER_CONTROL_TEXT[player_control_index])):
-            control_text = controlKeysFont.render(self.PLAYER_CONTROL_TEXT[player_control_index][i], True, WHITE)
+            control_text = control_keys_text_font.render(self.PLAYER_CONTROL_TEXT[player_control_index][i], True, WHITE)
             gameWindow.blit(control_text, self.PLAYER_CONTROL_TEXT_LOCATION[i])
 
-        player_character_name_text = playerCharacterNameTextFont.render(f"{CHARACTER_NAMES[self.selected_character]}", True, WHITE)
+        player_character_name_text = player_character_name_text_font.render(f"{CHARACTER_NAMES[self.selected_character]}", True, WHITE)
         player_character_name_text_location = player_character_name_text.get_rect(center = (960, 95))
         gameWindow.blit(player_character_name_text, player_character_name_text_location)
 
